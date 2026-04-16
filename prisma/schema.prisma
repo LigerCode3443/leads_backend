@@ -1,0 +1,45 @@
+generator client {
+  provider        = "prisma-client"
+  previewFeatures = ["fullTextSearchPostgres"]
+  output          = "../src/generated/prisma" 
+  moduleFormat    = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  IN_PROGRESS
+  WON
+  LOST
+
+  @@map("lead_status")
+}
+model Lead {
+  id        String   @id @default(uuid())
+  name      String
+  email     String?
+  company   String?
+  status    LeadStatus @default(NEW)
+  notes     String?
+  value     Int?
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  comments Comment[]@relation("lead_comments")
+  @@map("leads")
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  leadId    String
+  lead      Lead     @relation("lead_comments",fields: [leadId], references: [id], onDelete: Cascade)
+  text      String   @map("text")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("comments")
+}
