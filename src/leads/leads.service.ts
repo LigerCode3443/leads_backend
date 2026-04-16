@@ -8,11 +8,14 @@ import { CreateLeadDto } from './dto/create-lead.dto';
 import { UpdateLeadDto } from './dto/update-lead.dto';
 import { LeadStatus } from '../generated/prisma/client';
 
+
 @Injectable()
 export class LeadsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async list(query: ListLeadsQueryDto) {
+
+  
     const page = query.page ?? 1;
     const limit = query.limit ?? 10;
     const sort = query.sort ?? 'createdAt';
@@ -20,8 +23,12 @@ export class LeadsService {
 
     const where: Prisma.LeadWhereInput = {};
 
+
+
     if (query.status) {
       where.status = query.status;
+    } else {
+      delete where.status; 
     }
 
     const q = (query.q || '').trim();
@@ -94,21 +101,5 @@ export class LeadsService {
     await this.prisma.lead.delete({ where: { id } });
   }
 
-  async listComments(leadId: string) {
-    await this.get(leadId);
-    return await this.prisma.comment.findMany({
-      where: { leadId },
-      orderBy: { createdAt: 'desc' },
-    });
-  }
-
-  async addComment(leadId: string, dto: CreateCommentDto) {
-    await this.get(leadId);
-    return await this.prisma.comment.create({
-      data: {
-        leadId,
-        text: dto.text,
-      },
-    });
-  }
+  
 }

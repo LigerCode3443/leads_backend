@@ -15,7 +15,6 @@ import { CreateLeadDto } from './dto/create-lead.dto';
 import { ListLeadsQueryDto } from './dto/list-leads.query';
 
 import { LeadsService } from './leads.service';
-import { CreateCommentDto } from 'src/comments/dto/creat-comment.dto';
 import { UpdateLeadDto } from './dto/update-lead.dto';
 import { UpdateLeadStatusDto } from './dto/update-status-lead.dto';
 
@@ -66,19 +65,5 @@ export class LeadsController {
   async remove(@Param('id') id: string) {
     await this.leadsService.remove(id);
     return { ok: true };
-  }
-
-  @Get(':id/comments')
-  @ApiOkResponse({ description: 'List of comments' })
-  @ApiNotFoundResponse({ description: 'Lead not found' })
-  async listComments(@Param('id') id: string) {
-    return await this.leadsService.listComments(id);
-  }
-
-  @Post(':id/comments')
-  @ApiOkResponse({ description: 'Comment added' })
-  @ApiNotFoundResponse({ description: 'Lead not found' })
-  async addComment(@Param('id') id: string, @Body() dto: CreateCommentDto) {
-    return await this.leadsService.addComment(id, dto);
   }
 }

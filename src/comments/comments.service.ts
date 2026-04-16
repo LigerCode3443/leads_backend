@@ -18,7 +18,7 @@ export class CommentsService {
         });
       }
     
-      async addComment(leadId: string, dto: CreateCommentDto) {
+    async addComment(leadId: string, dto: CreateCommentDto) {
         await this.leadsService.get(leadId);
         return await this.prisma.comment.create({
           data: {
@@ -26,5 +26,5 @@ export class CommentsService {
             text: dto.text,
           },
         });
-      }
+    }
 }

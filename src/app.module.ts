@@ -12,9 +12,7 @@ import { ConfigModule } from '@nestjs/config';
    ConfigModule.forRoot({
     isGlobal:true,
    }),
-    PrismaModule,LeadsModule, CommentsModule],
-
-
+    PrismaModule, LeadsModule, CommentsModule],
   controllers: [AppController],
   providers: [AppService],
 })

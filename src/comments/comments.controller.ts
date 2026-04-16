@@ -17,7 +17,7 @@ export class CommentsController {
     return await this.commentsService.listComments(id);
   }
 
-  @Post('create/:id/')
+  @Post('create/:id')
   @ApiOkResponse({ description: 'Comment added' })
   @ApiNotFoundResponse({ description: 'Lead not found' })
   async addComment(@Param('id') id: string, @Body() dto: CreateCommentDto) {
