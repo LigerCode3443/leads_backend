@@ -15,8 +15,6 @@ enum LeadStatus {
   IN_PROGRESS
   WON
   LOST
-
-  @@map("lead_status")
 }
 model Lead {
   id        String   @id @default(uuid())
